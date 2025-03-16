@@ -4,6 +4,22 @@ document.querySelectorAll('.menu').forEach(menu => {
     });
 });
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    let today = new Date().toISOString().split("T")[0]; 
+    let dateInput = document.getElementById("date");
+
+    dateInput.setAttribute("max", today);
+
+    document.getElementById("transactionForm").addEventListener("submit", function(event) {
+        if (dateInput.value > today) {
+            alert("Future dates are not allowed!");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+});
+
+
 document.querySelectorAll('.edit-btn').forEach(btn => {
     btn.addEventListener('click', function () {
         const row = this.closest('tr');
