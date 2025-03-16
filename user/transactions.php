@@ -16,7 +16,7 @@ $budget_row = $budget_result->fetch_assoc();
 $budget = $budget_row['budget'] ?? 0;
 
 // Fetch transactions
-$transactions_query = $conn->prepare("SELECT id, category, amount, transaction_date FROM transactions WHERE user_id = ?");
+$transactions_query = $conn->prepare("SELECT id, category, amount, transaction_date FROM transactions WHERE user_id = ? order by id desc");
 $transactions_query->bind_param("i", $user_id);
 $transactions_query->execute();
 $transactions_result = $transactions_query->get_result();
@@ -35,7 +35,7 @@ $transactions_result = $transactions_query->get_result();
 
     <!-- Budget Display -->
     <div class="budget">
-        <h3>Monthly Budget: ₹<?php echo number_format($budget, 2); ?></h3>
+        <h3>Budget: ₹<?php echo number_format($budget, 2); ?></h3>
     </div>
 
     <!-- Expense Form -->
