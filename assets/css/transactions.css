@@ -28,6 +28,12 @@ input, select, button {
     padding: 8px;
 }
 
+#amount{
+    width: 98%;
+}
+#date{
+    width: 98%;
+}
 table {
     width: 100%;
     border-collapse: collapse;
