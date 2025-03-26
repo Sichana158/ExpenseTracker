@@ -20,12 +20,7 @@ $date = isset($_POST['date']) ? $_POST['date'] : '';
 $category = isset($_POST['category']) ? $_POST['category'] : '';
 $transaction_id = isset($_POST['transaction_id']) ? $_POST['transaction_id'] : '';
 
-$today = date('Y-m-d'); // Get today's date
 
-if (!$date || $date > $today) {
-    echo json_encode(["status" => "error", "message" => "Invalid date! Future dates are not allowed."]);
-    exit;
-}
 // Handle delete request
 if (isset($_POST['delete']) && !empty($transaction_id)) {
     $stmt = $conn->prepare("SELECT amount FROM transactions WHERE id = ? AND user_id = ?");
@@ -63,27 +58,60 @@ if (empty($amount) || empty($date) || empty($category)) {
     exit;
 }
 
-// Handle insert or update
+// **Handle Edit (Update)**
 if (!empty($transaction_id)) {
-    $stmt = $conn->prepare("UPDATE transactions SET amount = ?, transaction_date = ?, category = ? WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("dssii", $amount, $date, $category, $transaction_id, $user_id);
-} else {
-    $stmt = $conn->prepare("INSERT INTO transactions (user_id, amount, transaction_date, category) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("idss", $user_id, $amount, $date, $category);
-    
-    if ($stmt->execute()) {
-        $update_budget = $conn->prepare("UPDATE users SET budget = budget - ? WHERE id = ?");
-        $update_budget->bind_param("di", $amount, $user_id);
-        $update_budget->execute();
+    // Fetch the old amount before updating
+    $stmt = $conn->prepare("SELECT amount FROM transactions WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $transaction_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        echo json_encode(["status" => "success", "message" => "Transaction added and budget updated!"]);
-        header("Location: ../user/transactions.php");
-        exit;
+    if ($row = $result->fetch_assoc()) {
+        $old_amount = $row['amount'];
+        $amount_diff = $amount - $old_amount; // **Calculate the difference**
+
+        // Update transaction
+        $stmt = $conn->prepare("UPDATE transactions SET amount = ?, transaction_date = ?, category = ? WHERE id = ? AND user_id = ?");
+        $stmt->bind_param("dssii", $amount, $date, $category, $transaction_id, $user_id);
+
+        if ($stmt->execute()) {
+            // **Update the budget based on the difference**
+            $update_budget = $conn->prepare("UPDATE users SET budget = budget - ? WHERE id = ?");
+            $update_budget->bind_param("di", $amount_diff, $user_id);
+            $update_budget->execute();
+
+            echo json_encode(["status" => "success", "message" => "Transaction updated and budget adjusted!"]);
+            header("Location: ../user/transactions.php");
+            exit;
+        } else {
+            echo json_encode(["status" => "error", "message" => "Failed to update transaction!"]);
+            header("Location: ../user/transactions.php");
+            exit;
+        }
     } else {
-        echo json_encode(["status" => "error", "message" => "Failed to add transaction!"]);
+        echo json_encode(["status" => "error", "message" => "Transaction not found!"]);
         header("Location: ../user/transactions.php");
         exit;
     }
+}
+
+// **Handle Insert (New Transaction)**
+$stmt = $conn->prepare("INSERT INTO transactions (user_id, amount, transaction_date, category) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("idss", $user_id, $amount, $date, $category);
+
+if ($stmt->execute()) {
+    // **Subtract the new amount from the budget**
+    $update_budget = $conn->prepare("UPDATE users SET budget = budget - ? WHERE id = ?");
+    $update_budget->bind_param("di", $amount, $user_id);
+    $update_budget->execute();
+
+    echo json_encode(["status" => "success", "message" => "Transaction added and budget updated!"]);
+    header("Location: ../user/transactions.php");
+    exit;
+} else {
+    echo json_encode(["status" => "error", "message" => "Failed to add transaction!"]);
+    header("Location: ../user/transactions.php");
+    exit;
 }
 
 $stmt->close();

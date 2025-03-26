@@ -7,11 +7,12 @@ body {
     padding: 20px;
 }
 
-.budget {
+.budget{
     background: #f8f9fa;
     padding: 10px;
     border-radius: 5px;
     font-size: 18px;
+    width: 300px;
 }
 
 form {
@@ -21,7 +22,7 @@ form {
     border-radius: 5px;
 }
 
-input, select, button {
+input, select {
     display: block;
     width: 100%;
     margin: 10px 0;
@@ -61,4 +62,11 @@ th, td {
 .dropdown button {
     width: 100%;
     text-align: left;
+}
+.addTransaction{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
 }

@@ -61,7 +61,7 @@ $transactions_result = $transactions_query->get_result();
 
         <input type="hidden" id="transaction_id" name="transaction_id">
 
-        <button type="submit">Add Transaction</button>
+        <button type="submit" class="addTransaction">Add Transaction</button>
     </form>
 
     <!-- Transactions Table -->

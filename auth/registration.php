@@ -120,7 +120,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("sssssss", $fname, $lname, $email, $phone, $gender, $hashed_password, $role);
+$stmt->bind_param("sssssss", $fname, $lname, $email, $phone, $gender, $password, $role);
 
 if ($stmt->execute()) {
     http_response_code(201); // Created

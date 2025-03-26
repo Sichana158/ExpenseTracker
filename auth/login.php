@@ -32,10 +32,11 @@ if ($stmt->num_rows === 0) {
 $stmt->bind_result($id, $fname, $hashed_password, $role);
 $stmt->fetch();
 
-if (!password_verify($password, $hashed_password)) {
+if ($password != $hashed_password) {
     echo json_encode(["status" => "error", "message" => "Incorrect password!"]);
     exit;
 }
+
 
 // Store user session
 $_SESSION['user_id'] = $id;
