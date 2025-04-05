@@ -21,9 +21,9 @@ function fetchTotal($conn, $user_id, $interval) {
     return $result['total'] ?? 0;
 }
 
-$weeklyTotal = fetchTotal($conn, $user_id, "1 DAY");  
-$monthlyTotal = fetchTotal($conn, $user_id, "3 DAY");   
-$yearlyTotal = fetchTotal($conn, $user_id, "1 WEEK");   
+$weeklyTotal = fetchTotal($conn, $user_id, "1 WEEK");  
+$monthlyTotal = fetchTotal($conn, $user_id, "1 MONTH");   
+$yearlyTotal = fetchTotal($conn, $user_id, "1 YEAR");   
 
 $conn->close();
 ?>

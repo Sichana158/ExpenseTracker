@@ -14,15 +14,15 @@ function fetchExpenses($conn, $user_id, $filter) {
     $query = "";
     if ($filter === 'weekly') { // Last 1 hour
         $query = "SELECT category, SUM(amount) as total FROM transactions 
-                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 1 DAY 
+                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 7 DAY 
                   GROUP BY category";
     } elseif ($filter === 'monthly') { // Last 1 week
         $query = "SELECT category, SUM(amount) as total FROM transactions 
-                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 3 DAY 
+                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 30 DAY 
                   GROUP BY category";
     } else { // Monthly (Last 1 day)
         $query = "SELECT category, SUM(amount) as total FROM transactions 
-                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 7 DAY 
+                  WHERE user_id = ? AND transaction_date >= NOW() - INTERVAL 365 DAY 
                   GROUP BY category";
     }
 

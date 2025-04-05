@@ -31,7 +31,7 @@ $transactions_result = $transactions_query->get_result();
 </head>
 <body>
 <div class="content">
-    <h2>Transaction Management</h2>
+    <h2>Transaction </h2>
 
     <!-- Budget Display -->
     <div class="budget">

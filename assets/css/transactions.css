@@ -6,7 +6,7 @@ body {
     margin-left: 250px;
     padding: 20px;
 }
-
+ 
 .budget{
     background: #f8f9fa;
     padding: 10px;
@@ -30,10 +30,13 @@ input, select {
 }
 
 #amount{
-    width: 98%;
+    width: 1000%;  /* Reduced width */
+    font-size: 14px;  /* Smaller font size */
+    padding: 6px;  /* Adjust padding for a smaller field */
+
 }
 #date{
-    width: 98%;
+    width: 10 0%;
 }
 table {
     width: 100%;
@@ -64,7 +67,7 @@ th, td {
     text-align: left;
 }
 .addTransaction{
-    background-color: #28a745;
+    background-color:rgb(12, 238, 238);
     color: white;
     border: none;
     border-radius: 5px;
