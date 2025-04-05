@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const filterDropdown = document.getElementById("filter");
     const expenseChartCtx = document.getElementById("expenseChart").getContext("2d");
@@ -6,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let username = "User";
 
     function fetchAllTransactions(callback) {
-        fetch("../functions/fetch_all_transactions.php") // PHP file to fetch all transactions
+        fetch(`../functions/fetch_all_transactions.php?user_id=${userId}`) 
             .then(response => response.json())
             .then(data => {
                 callback(data);
@@ -15,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateExpenses(filter) {
-        fetch(`fetch_expenses.php?filter=${filter}`) 
+        fetch(`fetch_expenses.php?filter=${filter}&user_id=${userId}`) 
             .then(response => response.json())
             .then(data => {
                 expenses = data; 
