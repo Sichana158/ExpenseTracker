@@ -44,10 +44,10 @@ $phone = trim($_POST['phone'] ?? '');
 $gender = trim($_POST['gender'] ?? '');
 $password = $_POST['password'] ?? '';
 $confirmPassword = trim($_POST['confirmPassword'] ?? '');
-$role = "user";  // Default role
+$role = trim($_POST['role'] ?? '');
 
 // Validation checks
-if (!$fname || !$email || !$phone || !$password || !$gender || !$confirmPassword) {
+if (!$fname || !$email || !$phone || !$password || !$gender || !$confirmPassword || !$role) {
     http_response_code(400);
     echo json_encode(["status" => "error", "message" => "All fields are required."]);
     exit;
@@ -110,7 +110,9 @@ if ($stmt->num_rows > 0) {
 $stmt->close();
 
 // Insert user data
-$sql = "INSERT INTO users (Fname, Lname, email, phone, gender, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$table = $role === 'admin' ? 'admins' : 'users';
+
+$sql = "INSERT INTO $table (Fname, Lname, email, phone, gender, password) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -120,7 +122,8 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("sssssss", $fname, $lname, $email, $phone, $gender, $password, $role);
+$stmt->bind_param("ssssss", $fname, $lname, $email, $phone, $gender, $password);
+
 
 if ($stmt->execute()) {
     http_response_code(201); // Created

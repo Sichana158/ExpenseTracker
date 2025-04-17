@@ -30,13 +30,13 @@ input, select {
 }
 
 #amount{
-    width: 1000%;  /* Reduced width */
+    width: 98%;  /* Reduced width */
     font-size: 14px;  /* Smaller font size */
     padding: 6px;  /* Adjust padding for a smaller field */
 
 }
 #date{
-    width: 10 0%;
+    width: 98%;
 }
 table {
     width: 100%;
@@ -72,4 +72,5 @@ th, td {
     border: none;
     border-radius: 5px;
     font-size: 18px;
+    padding: 10px;
 }

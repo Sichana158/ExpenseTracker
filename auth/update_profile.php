@@ -10,8 +10,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $gender = trim($_POST['gender']);
     $budget = trim($_POST['budget']);
 
-    $updateQuery = $conn->prepare("UPDATE users SET Fname=?, Lname=?, phone=?, gender=?, budget=? WHERE id=?");
+    $stmt = $conn->prepare("SELECT monthly_budget FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($old_budget);
+    $stmt->fetch();
+    $stmt->close();
+
+// Check if budget was updated
+if ($old_budget != $budget) {
+    $updateQuery = $conn->prepare("UPDATE users SET Fname=?, Lname=?, phone=?, gender=?, monthly_budget=?, budget=? WHERE id=?");
+    $updateQuery->bind_param("ssssssi", $fname, $lname, $phone, $gender, $budget, $budget, $user_id);
+} else {
+    $updateQuery = $conn->prepare("UPDATE users SET Fname=?, Lname=?, phone=?, gender=?, monthly_budget=? WHERE id=?");
     $updateQuery->bind_param("sssssi", $fname, $lname, $phone, $gender, $budget, $user_id);
+}
 
     if ($updateQuery->execute()) {
         $_SESSION['user_name'] = $fname; // Update session name

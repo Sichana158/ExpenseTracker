@@ -10,6 +10,12 @@
         
         <input type="password" name="password" placeholder="Password" required>
         <br>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        <br>
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="register.php">Register</a></p>
@@ -17,20 +23,21 @@
 </body>
 <script>
         async function loginUser(event) {
-            event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
-            let formData = new FormData(document.getElementById("loginForm"));
+    let formData = new FormData(document.getElementById("loginForm"));
 
-            let response = await fetch("../auth/login.php", {
-                method: "POST",
-                body: formData
-            });
+    let response = await fetch("../auth/login.php", {
+        method: "POST",
+        body: formData
+    });
 
-            let result = await response.json();
-            alert(result.message);
-            
-            if (result.status === "success") {
-                window.location.href = "../index.php"; // Redirect after login
-            }
-        }
+    let result = await response.json();
+    alert(result.message);
+
+    if (result.status === "success") {
+        window.location.href = result.redirect;
+    }
+}
+
     </script>

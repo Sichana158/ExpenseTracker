@@ -6,6 +6,12 @@
         <input type="text" name="fname" placeholder="First Name" required>
         <input type="text" name="lname" placeholder="Last Name" >
         <input type="email" name="email" placeholder="Email" required>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+
         <input type="text" name="phone" placeholder="Phone Number" required>
         <select name="gender" required>
             <option value="">Select Gender</option>

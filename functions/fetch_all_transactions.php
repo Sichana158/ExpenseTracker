@@ -2,7 +2,11 @@
 session_start();
 require '../config/database.php'; 
 
-$user_id = $_SESSION['user_id']; // Ensure the user is logged in
+$user_id = $_SESSION['user_id'];
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin' && isset($_GET['user_id'])) {
+    $user_id = intval($_GET['user_id']);
+}
+
 
 $sql = "SELECT category, amount, DATE_FORMAT(transaction_date, '%Y-%m-%d') AS date FROM transactions WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
