@@ -1,5 +1,5 @@
 Download Xampp, My sql workbench.
-Copy the project folder inside: C:/xampp/htdocs/ - if not already added
+Copy and extract the project folder inside: C:/xampp/htdocs/
 
 Open the xampp: Start Apache and MySQL
 
@@ -10,19 +10,13 @@ http://localhost/ExpenseTracker/
 In MySQL Workbench, run this:
 
 SET GLOBAL event_scheduler = ON;
-To make it persist after restart, add this in my.cnf (MySQL config file):
-
-
-In your MySQL configuration file (my.cnf or my.ini), depending on your operating system.
+To make it persist after restart, add this in my.ini (MySQL config file):
 
 🪟 For Windows:
 Find your my.ini file.
 It’s usually located in:
 
-C:\ProgramData\MySQL\MySQL Server 8.0\my.ini
-
-C:\Program Files\MySQL\MySQL Server 8.0\my.ini
-Open the file with a text editor as Administrator.
+Xampp under Mysql ->congif->my.ini.
 
 Under the [mysqld] section, add this line:
 
